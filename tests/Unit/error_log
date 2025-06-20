@@ -1,0 +1,20 @@
+[04-Jul-2024 21:00:18 UTC] PHP Fatal error:  Uncaught Error: Class "PHPUnit\Framework\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php on line 7
+[04-Jul-2024 21:00:26 UTC] PHP Fatal error:  Uncaught Error: Class "PHPUnit\Framework\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php on line 7
+[04-Jul-2024 21:00:36 UTC] PHP Fatal error:  Uncaught Error: Class "PHPUnit\Framework\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php on line 7
+[04-Jul-2024 21:00:43 UTC] PHP Fatal error:  Uncaught Error: Class "PHPUnit\Framework\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php on line 7
+[04-Jul-2024 21:00:50 UTC] PHP Fatal error:  Uncaught Error: Class "PHPUnit\Framework\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/Unit/ExampleTest.php on line 7

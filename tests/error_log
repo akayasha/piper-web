@@ -1,0 +1,40 @@
+[04-Jul-2024 20:07:48 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:07:53 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:03 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:10 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:10 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:17 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:24 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:24 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:32 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
+[04-Jul-2024 20:08:39 UTC] PHP Fatal error:  Uncaught Error: Class "Illuminate\Foundation\Testing\TestCase" not found in /home/aknakert/education/admin.codepower.site/tests/TestCase.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/aknakert/education/admin.codepower.site/tests/TestCase.php on line 7
