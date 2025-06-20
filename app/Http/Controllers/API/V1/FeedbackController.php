@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
-
 class FeedbackController extends Controller
 {
     public function createFeedback(Request $request)

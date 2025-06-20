@@ -12,22 +12,37 @@ class Branch extends Model
 
     protected $table = 'branches';
     protected $primaryKey = "id";
-
     protected $fillable = [
-        'user_id',
         'name',
-        'price',
         'phone',
         'address',
+        // 'price',
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasMany(User::class);
     }
 
-    public function redeemCode()
+    public function redeemCodes()
     {
-        return $this->hasMany(RedeemCode::class, 'branch_id');
+        return $this->hasMany(RedeemCode::class, 'branch_id', 'id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'branch_id', 'id');
+    }
+    
+    public function priceBranches()
+    {
+        return $this->hasMany(PriceBranch::class, 'branch_id', 'id');
+    }
+
+
+    // public function priceBranches()
+    // {
+    //     return $this->hasMany(PriceBranch::class, 'branch_id', 'id');
+    // }
+
 }

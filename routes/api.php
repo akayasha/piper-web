@@ -5,11 +5,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\AuthController;
 
+use App\Http\Controllers\API\V1\BranchController;
 use App\Http\Controllers\API\V1\TesterController;
 use App\Http\Controllers\API\V1\PaymentController;
 use App\Http\Controllers\API\V1\FeedbackController;
+
 use App\Http\Controllers\API\V1\RedeemCodeController;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Http\Controllers\API\V1\PriceBranchController;
 
 
 // Fallback System
@@ -41,11 +44,11 @@ Route::prefix('v1')->group(function() {
 
     Route::prefix('payment')->group(function(){
         Route::post('/process', PaymentController::class);
-        Route::post('/process/qr', [PaymentController::class, 'paymentQr']);
         Route::get('/status/{invoiceNumber}', [PaymentController::class, 'checkPaymentStatus']);
         Route::get('/redeem-codes', [PaymentController::class, 'getRedeemCodes']);
         Route::get('/all-payments', [PaymentController::class, 'getPayments']);
         Route::get('/get-payment/{branchId}/strip/{strip}', [PaymentController::class, 'getPaymentBrach']);
+        Route::delete('/delete/{invoiceNumber}', [PaymentController::class, 'deleteByInvoice']);
 
     });
 
@@ -56,12 +59,18 @@ Route::prefix('v1')->group(function() {
         Route::get('/all-redeem-codes', [RedeemCodeController::class, 'getAllRedeemCodes']);
         Route::get('/all-branch', [RedeemCodeController::class, 'getAllBranches']);
         Route::get('/branch-by{name}', [RedeemCodeController::class, 'getBranchByName']);
-
-
     });
 
     Route::post('/feedback', [FeedbackController::class, 'createFeedback']);
 
+    Route::prefix('branches')->group(function(){
+        Route::get('/', [BranchController::class, 'index']);
+        Route::get('/detail/{id}', [BranchController::class, 'show']);
+        Route::get('/get-price/{branch_id}', [PriceBranchController::class, 'getPriceByBranchId']);
+        Route::post('create-price', [PriceBranchController::class, 'create']);
+
+
+    });
 
     // Example
     // Route::prefix('/categories')->controller(CategoryController::class)->group(function() {

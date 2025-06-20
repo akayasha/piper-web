@@ -7,15 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 // Library Installer
 use RealRashid\SweetAlert\Facades\Alert;
-    
+use Maatwebsite\Excel\Facades\Excel;
+
 // Models
 use App\Models\Payment;
 use App\Models\Branch;
 
+// DataTable
 use App\DataTables\TransactionDataTable;
+
+// Export
+use App\Exports\Transaction\TemplateExport;
 
 class TransactionController extends Controller
 {
@@ -49,7 +55,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        // 
+        //
     }
 
     /**
@@ -65,7 +71,7 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        // 
+        //
     }
 
     /**
@@ -73,7 +79,7 @@ class TransactionController extends Controller
      */
     public function edit(string $id)
     {
-        // 
+        //
     }
 
     /**
@@ -89,6 +95,38 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        // 
+        //
     }
+
+    public function export(Request $request)
+    {
+        $query = $this->model->query();
+        
+        // Apply the same filters as in the datatable
+        if ($request->has('branch_id') && $request->branch_id !== '' && $request->branch_id !== 'all') {
+            $query->whereHas('redeemCode.branch', function ($q) use ($request) {
+                $q->where('id', $request->branch_id);
+            });
+        }
+        
+        if ($request->has('start_date') && $request->start_date != '') {
+            $query->whereDate('created_at', '>=', $request->start_date);
+        }
+        
+        if ($request->has('end_date') && $request->end_date != '') {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+        
+        $dateTime = Carbon::now()->format('d-M-Y-H:i');
+        $filename = 'list-transaction-' . $dateTime . '.xlsx';
+        
+        return Excel::download(new TemplateExport($query), $filename);
+    }
+
+    // public function export()
+    // {
+    //     $dateTime = Carbon::now()->format('d-M-Y-H:i');
+    //     $filename = 'list-transaction-' . $dateTime . '.xlsx';
+    //     return Excel::download(new TemplateExport, $filename);
+    // }
 }

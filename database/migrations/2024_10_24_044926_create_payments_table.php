@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('transaction_id')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('strip');
-            $table->string('status')->default('pending');  
+            $table->enum('status', ['success' , 'pending', 'expired']);
             $table->string('payment_method')->nullable();
             $table->timestamps();
             $table->foreign('redeem_code_id')

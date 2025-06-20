@@ -15,6 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 // Models
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Branch;
 use App\Models\Permission;
 
 use App\DataTables\UsersDataTable;
@@ -50,7 +51,8 @@ class AdminController extends Controller
      */
     public function create()
     {
-        return view($this->view . 'create');
+        $branches = Branch::all();
+        return view($this->view . 'create' , compact('branches'));
     }
 
     /**
@@ -59,6 +61,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'branch_id' => 'required',
             'name' => 'required',
             'phone' => 'required|numeric',
             'email' => 'required|email|unique:users,email',
@@ -79,6 +82,7 @@ class AdminController extends Controller
 
         $result = $this->model->create([
             'role_id' => $role->uuid,
+            'branch_id' => $input['branch_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'email' => $input['email'],
@@ -99,9 +103,11 @@ class AdminController extends Controller
      */
     public function show(string $id)
     {
+        $branches = Branch::all();
         $data = $this->model->where('id', $id)->first();
         return view($this->view . 'detail', [
-            'data' => $data
+            'data' => $data,
+            'branches' => $branches
         ]);
     }
 
@@ -110,9 +116,11 @@ class AdminController extends Controller
      */
     public function edit(string $id)
     {
+        $branches = Branch::all();
         $data = $this->model->where('id', $id)->first();
         return view($this->view . 'edit', [
-            'data' => $data
+            'data' => $data,
+            'branches' => $branches
         ]);
     }
 
@@ -122,6 +130,7 @@ class AdminController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'branch_id' => 'required',
             'name' => 'required',
             'phone' => 'required|numeric',
             'email' => 'required|email',
@@ -130,6 +139,7 @@ class AdminController extends Controller
         $input = $request->all();
 
         $result = $this->model->where('id', $id)->update([
+            'branch_id' =>$input['branch_id'],
             'name' => $input['name'],
             'phone' => $input['phone'],
             'email' => $input['email'],

@@ -46,20 +46,10 @@ class VoucherController extends Controller
      */
     public function index(Request $request, VoucherDataTable $dataTable)
     {
-        $branchs = Branch::all();
+        $branches = Branch::get();
         return $dataTable->render($this->view . 'index', [
-            'branchs' => $branchs
+            'branches' => $branches
         ]);
-
-        // $branchs = Branch::all();
-        // $branch_id = $request->get('branch_id');
-
-        // return $dataTable->with([
-        //     'branch_id' => $branch_id,
-        // ])->render($this->view . 'index', [
-        //     'branchs' => $branchs,
-        //     'selected_branch' => $branch_id,
-        // ]);
     }
 
 
@@ -68,9 +58,9 @@ class VoucherController extends Controller
      */
     public function create()
     {
-        $branchs = Branch::all();
+        $branches = Branch::all();
         return view($this->view . 'create', [
-            'branchs' => $branchs
+            'branches' => $branches
         ]);
     }
 

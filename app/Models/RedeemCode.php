@@ -27,11 +27,11 @@ class RedeemCode extends Model
 
     public function branch()
     {
-        return $this->belongsTo(Branch::class, 'branch_id');
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 
-    public function payment()
+    public function payments()
     {
-        return $this->hasMany(Payment::class, 'redeem_code_id');
+        return $this->hasMany(Payment::class, 'redeem_code_id', 'id');
     }
 }

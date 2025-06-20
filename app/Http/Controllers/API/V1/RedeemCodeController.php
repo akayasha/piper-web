@@ -19,7 +19,7 @@ class RedeemCodeController extends Controller
             'branch_id' => 'required|uuid',
             'strip' => 'required|numeric',
             'type' => 'required|in:online,offline',
-            'price' => 'required|numeric', 
+            'price' => 'required|numeric',
         ]);
     
         if ($validator->fails()) {
@@ -31,12 +31,21 @@ class RedeemCodeController extends Controller
             ], 422);
         }
     
+        // Cari branch berdasarkan branch_id
+        $branch = Branch::find($request->input('branch_id'));
+    
+        if (!$branch) {
+            return response()->json([
+                'status_code' => 404,
+                'status' => 'Error',
+                'message' => 'Branch tidak ditemukan'
+            ], 404);
+        }
+    
+        // Generate kode redeem unik
         do {
-            $numbers = [];
-            for ($i = 0; $i < 5; $i++) {
-                $numbers[] = rand(0, 9);
-            }
-            $code = implode('', $numbers);
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            $code = substr(str_shuffle($characters), 0, 5); 
         } while (RedeemCode::where('code', $code)->exists());
     
         $redeemCode = RedeemCode::create([
@@ -47,12 +56,17 @@ class RedeemCodeController extends Controller
             'strip' => $request->input('strip'),
         ]);
     
+        $branchName = Str::upper(Str::slug($branch->name, '_')); 
+        $date = now()->format('dmy');
+        $invoiceNumber = "{$branchName}-{$date}-" . uniqid();
+    
+        // Buat payment
         $payment = Payment::create([
-            'redeem_code_id' => $redeemCode->id, 
-            'invoice_number' => 'INV-' . uniqid(),
+            'redeem_code_id' => $redeemCode->id,
+            'invoice_number' => $invoiceNumber,
             'price' => $request->input('price'),
             'status' => 'pending',
-            'payment_method' => 'qris', 
+            'payment_method' => 'qris',
             'strip' => $request->input('strip'),
         ]);
     
@@ -61,39 +75,10 @@ class RedeemCodeController extends Controller
             'status' => 'Success',
             'message' => 'Redeem code generated and payment created successfully',
             'redeem_code' => $redeemCode,
-            'payment' => $payment 
+            'payment' => $payment
         ], 201);
     }
     
-
-
-    // public function useCode(Request $request)
-    // {
-    //     $redeemCode = RedeemCode::where('code', $request->input('redeem_code'))->first();
-
-    //     if (!$redeemCode) {
-    //         return response()->json(['message' => 'Kode redeem tidak ditemukan.'], 404);
-    //     }
-
-    //     if ($redeemCode->is_redeemed) {
-    //         return response()->json(['message' => 'Kode redeem sudah digunakan.'], 400);
-    //     }
-
-    //     $redeemCode->update([
-    //         'is_redeemed' => true,
-    //         'redeemed_at' => now(),
-    //     ]);
-
-    //     return response()->json([
-    //         'status_code' => 200,
-    //         'status' => 'Success',
-    //         'message' => 'Kode redeem berhasil digunakan.',
-    //         'redeem_code' => $redeemCode
-    //     ], 200);
-    // }
-
-
-
 
     public function useCode(Request $request, $code)
     {
@@ -181,9 +166,6 @@ class RedeemCodeController extends Controller
             'data' => $branch
         ], 200);
     }
-
-
-
 
 }
 

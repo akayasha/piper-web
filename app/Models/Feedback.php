@@ -9,6 +9,8 @@ class Feedback extends Model
 {
     use HasFactory;
 
+    protected $table = "feedback";
+    protected $primaryKey = "id";
     protected $fillable = [
         'message',
     ];

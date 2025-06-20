@@ -12,9 +12,10 @@ class Template extends Model
 
     protected $table = 'templates';
     protected $primaryKey = "id";
-
     protected $fillable = [
         'name',
+        'branch',
+        'count_photo',
         'template',
     ];
 }

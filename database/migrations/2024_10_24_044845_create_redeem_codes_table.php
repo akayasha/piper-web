@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('redeem_codes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('branch_id');
-            $table->string('code')->unique();
+            $table->string('code', 5)->unique();
             $table->enum('type', ['offline' , 'online']);
             $table->integer('strip');
             $table->boolean('is_redeemed')->default(false);

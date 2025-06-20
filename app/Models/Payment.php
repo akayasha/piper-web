@@ -13,7 +13,7 @@ class Payment extends Model
 
     protected $table = 'payments';
     protected $primaryKey = "id";
-    
+
     protected $fillable = [
         'id',
         'redeem_code_id',
@@ -27,6 +27,11 @@ class Payment extends Model
 
     public function redeemCode()
     {
-        return $this->belongsTo(RedeemCode::class, 'redeem_code_id');
+        return $this->belongsTo(RedeemCode::class, 'redeem_code_id', 'id');
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
     }
 }

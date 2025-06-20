@@ -2,15 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Feedback;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class FeedbackDataTable extends DataTable
 {
-    public $view = ['admin.', 'employee.'];
-
     /**
      * Build DataTable class.
      *
@@ -19,12 +17,7 @@ class UsersDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query);
-            // return view('users.action', compact('user'))->render();
-            // ->addColumn('action', function ($user) {
-            //     return view('users.action', compact('user'))->render();
-            // });
+        return datatables()->eloquent($query);
     }
 
     /**
@@ -33,19 +26,9 @@ class UsersDataTable extends DataTable
      * @param \App\Models\User $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Feedback $model)
     {
-        // return $model->newQuery()
-        // ->whereHas('role', function($query) {
-        //     $query->whereIn('name', ['admin_branch', 'employee']);
-        // });
-
-        $role = $this->role;
-
-        return $model->newQuery()
-            ->whereHas('role', function($query) use ($role) {
-                $query->where('name', $role);
-            })->orderBy('created_at', 'desc');
+        return $model->newQuery()->orderBy('created_at', 'desc');
     }
 
     /**
@@ -56,7 +39,7 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-        ->setTableId('kt_table_users')
+        ->setTableId('kt_table_feedback')
         ->columns($this->getColumns())
         ->minifiedAjax()
         ->dom('Bfrtip')
@@ -84,7 +67,7 @@ class UsersDataTable extends DataTable
                   ->width(60)
                   ->addClass('text-center'),
             Column::make('id'),
-            Column::make('name'),
+            Column::make('message'),
             Column::make('phone'),
             Column::make('email'),
             Column::make('created_at'),

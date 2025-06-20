@@ -26,6 +26,7 @@ class RoleController extends Controller
 
     public function __construct(Role $model)
     {
+        $this->middleware('auth');
         View::share('route', $this->route);
         View::share('view', $this->view);
         View::share('title', $this->title);
@@ -58,13 +59,19 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'guard_name' => 'required',
-        ]);
+            'name' => 'required|unique:roles,name',
+            'guard_name' => 'required|unique:roles,guard_name',
+        ]);        
 
         $input = $request->all();
 
-        $role = Role::where('name', 'super_admin', 'admin_branch', 'employee')->first();
+        // $role = Role::where('name', 'super_admin', 'admin_branch')->first();
+        $role = Role::whereIn('name', ['super_admin', 'admin_branch'])->first();
+
+        if (!$role) {
+            Alert::error('Error', 'Role super_admin atau admin_branch tidak ditemukan.');
+            return back();
+        }
 
         $result = $this->model->create([
             'role_id' => $role->uuid,
@@ -86,6 +93,10 @@ class RoleController extends Controller
     public function show(string $uuid)
     {
         $data = $this->model->where('uuid', $uuid)->first();
+        if (!$data) {
+            Alert::error('Error', 'Data tidak ditemukan');
+            return redirect()->route($this->route . 'index');
+        }
         return view($this->view . 'detail', [
             'data' => $data
         ]);
@@ -97,6 +108,10 @@ class RoleController extends Controller
     public function edit(string $uuid)
     {
         $data = $this->model->where('uuid', $uuid)->first();
+        if (!$data) {
+            Alert::error('Error', 'Data tidak ditemukan');
+            return redirect()->route($this->route . 'index');
+        }
         return view($this->view . 'edit', [
             'data' => $data
         ]);
@@ -108,9 +123,9 @@ class RoleController extends Controller
     public function update(Request $request, string $uuid)
     {
         $request->validate([
-            'name' => 'required',
-            'guard_name' => 'required',
-        ]);
+            'name' => 'required|unique:roles,name',
+            'guard_name' => 'required|unique:roles,guard_name',
+        ]);        
 
         $input = $request->all();
 
@@ -133,8 +148,8 @@ class RoleController extends Controller
     public function destroy(string $uuid)
     {
         $validator = Validator::make(['uuid' => $uuid], [
-            'id' => 'required|exists:roles,id',
-        ]);
+            'uuid' => 'required|exists:roles,uuid',
+        ]);        
 
         if ($validator->fails()) {
             return response()->json(['message' => 'ID tidak valid'], 400);

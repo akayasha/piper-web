@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('templates', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name')->nullable();
-            $table->string('branch')->nullable();
-            $table->integer('count_photo')->nullable();
-            $table->longText('template')->nullable();
+        Schema::create('price_branches', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('branch_id');
+            $table->integer('price'); 
+            $table->string('strip');
             $table->timestamps();
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('templates');
+        Schema::dropIfExists('price_branches');
     }
 };

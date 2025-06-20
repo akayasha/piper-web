@@ -80,7 +80,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $user = User::where('email', $request->email)->first();
             $roleName = $user->role->name;
-            if ($roleName === 'admin_branch' || $roleName === 'employee' || $roleName === 'super_admin') {
+            if ($roleName === 'admin_branch' || $roleName === 'super_admin') {
                 return redirect()->route('dashboard');
             } else {
                 alert()->error('Access Denied', 'You do not have permission to access this page.')->persistent(true, false);

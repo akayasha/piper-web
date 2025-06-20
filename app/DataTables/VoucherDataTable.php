@@ -7,6 +7,8 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class VoucherDataTable extends DataTable
 {
     public $view = 'voucher.';
@@ -20,12 +22,27 @@ class VoucherDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query);
-            // return view('voucher.action', compact('voucher'))->render();
-            // ->addColumn('action', function ($row) {
-            //     return view('voucher.action', compact('row'))->render();
-            // });
+            ->eloquent($query)
+            ->filter(function ($query) {
+                if ($searchValue = request('search.value')) {
+                    $query->where(function ($query) use ($searchValue) {
+                        $query->where('code', 'like', "%{$searchValue}%")
+                            ->orWhere('type', 'like', "%{$searchValue}%")
+                            ->orWhere('strip', 'like', "%{$searchValue}%")
+                            ->orWhere('is_redeemed', 'like', "%{$searchValue}%")
+                            ->orWhereHas('branch', function ($query) use ($searchValue) {
+                                $query->where('name', 'like', "%{$searchValue}%");
+                            });
+                    });
+                }
 
+                if (request()->has('branch_id') && request('branch_id') !== '' && request('branch_id') !== 'all') {
+                    $branchId = request('branch_id');
+                    $query->whereHas('branch', function ($query) use ($branchId) {
+                        $query->where('id', $branchId);
+                    });
+                }
+            });
     }
 
     /**
@@ -36,7 +53,12 @@ class VoucherDataTable extends DataTable
      */
     public function query(RedeemCode $model)
     {
-        return $model->newQuery()->with('branch');
+        $session_branch_id = Auth::user()->branch_id;
+        if ($session_branch_id) {
+            return $model->newQuery()->where('branch_id', $session_branch_id)->with('branch')->orderBy('created_at', 'desc');
+        } else {
+            return $model->newQuery()->with('branch')->orderBy('created_at', 'desc');
+        }
     }
 
     /**

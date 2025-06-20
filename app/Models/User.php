@@ -30,6 +30,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmailContrac
         'is_guest',
         'password',
         'phone',
+        'branch_id'
     ];
 
     /**
@@ -70,7 +71,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmailContrac
 
     public function branch()
     {
-        return $this->hasMany(Branch::class, 'user_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
     /**
      * Get the identifier that will be stored in the JWT.

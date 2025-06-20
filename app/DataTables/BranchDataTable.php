@@ -7,6 +7,8 @@ use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class BranchDataTable extends DataTable
 {
     public $view = 'branch.'; 
@@ -33,8 +35,14 @@ class BranchDataTable extends DataTable
      */
     public function query(Branch $model)
     {
-        return $model->newQuery()->with('users');
+        $session_branch_id = Auth::user()->branch_id;
+        if ($session_branch_id) {
+            return $model->newQuery()->where('id', $session_branch_id)->with('users')->orderBy('created_at', 'desc');
+        } else {
+            return $model->newQuery()->with('users')->orderBy('created_at', 'desc');
+        }
     }
+    
 
     /**
      * Optional method if you want to use the html builder.
@@ -73,7 +81,6 @@ class BranchDataTable extends DataTable
             Column::make('id'),
             Column::make('user_id'),
             Column::make('name'),
-            Column::make('price'),
             Column::make('phone'),
             Column::make('address'),
             Column::make('created_at'),

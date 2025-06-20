@@ -2,14 +2,14 @@
 
 namespace App\DataTables;
 
-use App\Models\Template;
+use App\Models\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class TemplateDataTable extends DataTable
+class BranchPicDataTable extends DataTable
 {
-    protected $branch;
+    protected $branch_id;
 
     /**
      * Set filter for branch dynamically.
@@ -17,7 +17,7 @@ class TemplateDataTable extends DataTable
     public function where(string $column, mixed $value): static
     {
         if ($column === 'branch') {
-            $this->branch = $value;
+            $this->branch_id = $value;
         }
         return $this;
     }
@@ -37,11 +37,9 @@ class TemplateDataTable extends DataTable
     /**
      * Get the query source for the DataTable.
      */
-    public function query(Template $model)
+    public function query(User $model)
     {
-        return $model->newQuery()->when($this->branch, function ($query) {
-            $query->where('branch', $this->branch);
-        })->orderBy('created_at', 'desc');;
+        return $model->newQuery()->where('branch_id', $this->branch_id)->orderBy('created_at', 'desc');
     }
 
     /**
