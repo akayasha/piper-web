@@ -3,11 +3,14 @@
 use Illuminate\Support\Facades\Route;
 
 // WEB
+use App\Http\Controllers\Admin\HistoryMomentController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Http\Controllers\Admin\PriceBranchController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\TemplateController;
-use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\FeedbackController;
+// use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\VoucherController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\AdminController;
@@ -43,6 +46,7 @@ Route::prefix('authentications')->controller(AuthController::class)->group(funct
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/' , [DashboardController::class,'index'])->name('dashboard');
+    Route::post('/filter-data' , [DashboardController::class,'filterData'])->name('dashboard.filter');
 
     // ADMIN
     Route::prefix('admins')->controller(AdminController::class)->group(function(){
@@ -55,16 +59,20 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/delete/{id}', 'destroy')->name('admins.destroy');
     });
 
-    // EMPLOYEE
-    Route::prefix('employees')->controller(EmployeeController::class)->group(function(){
-        Route::get('/', 'index')->name('employees.index');
-        Route::get('/create', 'create')->name('employees.create');
-        Route::post('/create/store', 'store')->name('employees.store');
-        Route::get('/edit/{id}', 'edit')->name('employees.edit');
-        Route::put('/edit/update/{id}', 'update')->name('employees.update');
-        Route::get('/detail/{id}', 'show')->name('employees.show');
-        Route::delete('/delete/{id}', 'destroy')->name('employees.destroy');
+    Route::prefix('history-moments')->controller(HistoryMomentController::class)->group(function(){
+        Route::get('/', 'index')->name('history-moments.index');
     });
+
+    // EMPLOYEE
+    // Route::prefix('employees')->controller(EmployeeController::class)->group(function(){
+    //     Route::get('/', 'index')->name('employees.index');
+    //     Route::get('/create', 'create')->name('employees.create');
+    //     Route::post('/create/store', 'store')->name('employees.store');
+    //     Route::get('/edit/{id}', 'edit')->name('employees.edit');
+    //     Route::put('/edit/update/{id}', 'update')->name('employees.update');
+    //     Route::get('/detail/{id}', 'show')->name('employees.show');
+    //     Route::delete('/delete/{id}', 'destroy')->name('employees.destroy');
+    // });
 
     // Role
     Route::prefix('roles')->controller(RoleController::class)->group(function(){
@@ -90,13 +98,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Template
     Route::prefix('templates')->controller(TemplateController::class)->group(function(){
-        Route::get('/', 'index')->name('templates.index');
-        Route::get('/create', 'create')->name('templates.create');
-        Route::post('/create/store', 'store')->name('templates.store');
-        Route::get('/edit/{id}', 'edit')->name('templates.edit');
-        Route::put('/edit/update/{id}', 'update')->name('templates.update');
-        Route::get('/detail/{id}', 'show')->name('templates.show');
-        Route::delete('/delete/{id}', 'destroy')->name('templates.destroy');
+        Route::get('/{branc_name?}', 'index')->name('templates.index');
+        Route::get('/{branch_id}/create', 'create')->name('templates.create');
+        Route::post('/{branch_id}/create/store', 'store')->name('templates.store');
+        Route::get('/{branch_id}/edit/{id}', 'edit')->name('templates.edit');
+        Route::put('/{branch_id}/edit/update/{id}', 'update')->name('templates.update');
+        Route::get('/{branch_id}/detail/{id}', 'show')->name('templates.show');
+        Route::delete('/{branch_id}/delete/{id}', 'destroy')->name('templates.destroy');
     });
 
     // Branch
@@ -108,9 +116,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/edit/update/{id}', 'update')->name('branchs.update');
         Route::get('/detail/{id}', 'show')->name('branchs.show');
         Route::delete('/delete/{id}', 'destroy')->name('branchs.destroy');
+        // Route::post('/price_branches/store', [PriceBranchController::class, 'store'])->name('price_branches.store');
 
-        // filter
-        // Route::get('/filter', 'filter')->name('branchs.filter');
+        // Add ons Routes
+        Route::get('/branch-pic/{branch_id}' , 'BranchPic')->name('branchs.pic');
     });
 
     // Transaction
@@ -122,6 +131,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/edit/update/{id}', 'update')->name('transactions.update');
         Route::get('/detail/{id}', 'show')->name('transactions.show');
         Route::delete('/delete/{id}', 'destroy')->name('transactions.destroy');
+
+        // Add Ons Route
+        Route::get('/excel-export' , 'export')->name('transactions.export');
     });
 
     // Voucher
@@ -136,5 +148,16 @@ Route::middleware(['auth'])->group(function () {
 
         // Add Ons Route
         Route::post('/generate-code-auto' , 'generateCodeAuto')->name('vouchers.generate-code-auto');
+    });
+
+    // Feedback
+    Route::prefix('feedbacks')->controller(FeedbackController::class)->group(function(){
+        Route::get('/', 'index')->name('feedbacks.index');
+        Route::get('/create', 'create')->name('feedbacks.create');
+        Route::post('/create/store', 'store')->name('feedbacks.store');
+        Route::get('/edit/{id}', 'edit')->name('feedbacks.edit');
+        Route::put('/edit/update/{id}', 'update')->name('feedbacks.update');
+        Route::get('/detail/{id}', 'show')->name('feedbacks.show');
+        Route::delete('/delete/{id}', 'destroy')->name('feedbacks.destroy');
     });
 });

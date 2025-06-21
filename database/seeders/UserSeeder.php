@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = Role::whereIn('name', ['super_admin', 'admin_branch', 'employee'])
+        $roles = Role::whereIn('name', ['super_admin', 'admin_branch'])
             ->pluck('uuid', 'name')
             ->toArray();
 
@@ -38,13 +38,13 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('admin123'),
                 'role' => 'admin_branch',
             ],
-            [
-                'name' => 'Employee Piper',
-                'email' => 'employee@piper.com',
-                'phone' => '089516116281',
-                'password' => Hash::make('employee123'),
-                'role' => 'employee',
-            ]
+            // [
+            //     'name' => 'Employee Piper',
+            //     'email' => 'employee@piper.com',
+            //     'phone' => '089516116281',
+            //     'password' => Hash::make('employee123'),
+            //     'role' => 'employee',
+            // ]
         ];
 
         foreach ($users as $user) {

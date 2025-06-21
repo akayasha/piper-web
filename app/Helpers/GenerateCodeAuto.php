@@ -9,11 +9,11 @@ trait GenerateCodeAuto {
     public function generateUniqueRedeemCode($length = 5)
     {
         do {
-            $numbers = [];
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            $code = '';
             for ($i = 0; $i < $length; $i++) {
-                $numbers[] = rand(0, 9);
+                $code .= $characters[rand(0, strlen($characters) - 1)];
             }
-            $code = implode('', $numbers);
         } while (RedeemCode::where('code', $code)->where('is_redeemed', true)->exists());
 
         return $code;

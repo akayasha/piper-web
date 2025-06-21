@@ -15,22 +15,6 @@ class TemplateSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
-            [
-                'name' => 'Tes',
-                'template' => 'Template 1',
-            ],
-            [
-                'name' => 'Testing',
-                'template' => 'Template 2',
-            ],
-        ];
 
-        foreach ($data as $template) {
-            Template::firstOrCreate(
-                ['name' => $template['name']],
-                $template
-            );
-        }
     }
 }
