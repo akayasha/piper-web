@@ -66,11 +66,10 @@
                         <th>No</th>
                             {{--  <th>User</th>  --}}
                             <th>Name</th> 
-                            <th>PIC</th> 
-                            <th>Price</th> 
                             <th>Phone</th> 
                             <th>Address</th> 
                             <th>Actions</th>
+                            <th></th> 
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-bold">

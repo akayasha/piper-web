@@ -1,8 +1,5 @@
 <script>
-    "use strict";
-
     var KTUsersList = function() {
-        // Define shared variables
         var table = $('#kt_table_voucher');
         var datatable;
         var toolbarBase;
@@ -21,6 +18,9 @@
                 "ajax": {
                     "url": "/vouchers",
                     "type": "GET",
+                    "data": function(d) {
+                        d.branch_id = $('#branch_id').val();
+                    },
                     "dataSrc": function(json) {
                         return json.data;
                     }
@@ -42,10 +42,12 @@
                         orderable: false
                     },
                     {
-                        data: 'branch.name'
+                        data: function(row) {
+                            return row.branch.name ?? '-';
+                        }
                     },
                     {
-                        data: 'code'
+                        data: 'code' ?? '-'
                     },
                     {
                         data: 'type',
@@ -180,7 +182,6 @@
                 });
             }
 
-
             var toggleToolbars = function() {
                 console.log('Toggle toolbars');
             }
@@ -192,17 +193,27 @@
             });
         }
 
+        var handleBranchFilter = function() {
+            const branchFilter = $('#branch_id');
+            branchFilter.on('change', function() {
+                setTimeout(function() {
+                    datatable.ajax.reload();
+                }, 100);
+            });
+        };
+
         var handleSearchDatatable = function() {
             const filterSearch = $('[data-kt-user-table-filter="search"]');
             filterSearch.on('keyup', function() {
                 datatable.search(this.value).draw();
             });
-        }
+        };
 
         return {
             init: function() {
                 initUserTable();
                 handleSearchDatatable();
+                handleBranchFilter();
             }
         }
     }();

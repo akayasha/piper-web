@@ -1,3 +1,5 @@
+{{-- <script src="assets/plugins/custom/typedjs/typedjs.bundle.js"></script>
+<script src="assets/js/custom/documentation/general/typed.js"></script> --}}
 <div class="d-flex align-items-stretch" id="kt_header_nav">
     <!--begin::Menu wrapper-->
     <div class="header-menu align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="end" data-kt-drawer-toggle="#kt_header_menu_mobile_toggle" data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_body', lg: '#kt_header_nav'}">
@@ -3635,17 +3637,10 @@
                             {{ auth()->user() ? auth()->user()->name : 'Admin Piper' }}
                         </div>
                         <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{ auth()->user() ? auth()->user()->email : 'admin@piper.com' }}</a>
+                        <a href="#" class="text-muted text-hover-primary fs-7">{{ isset(auth()->user()->branch->name) ? auth()->user()->branch->name : 'All Branch' }}</a>
                     </div>
                     <!--end::Username-->
                 </div>
-            </div>
-            <!--end::Menu item-->
-            <!--begin::Menu separator-->
-            <div class="separator my-2"></div>
-            <!--end::Menu separator-->
-            <!--begin::Menu item-->
-            <div class="menu-item px-5">
-                <a href="" class="menu-link px-5">My Profile</a>
             </div>
             <!--end::Menu item-->
             <!--begin::Menu separator-->

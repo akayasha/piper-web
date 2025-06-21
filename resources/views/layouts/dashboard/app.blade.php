@@ -3,6 +3,13 @@
 	<!--begin::Head-->
 	<head>
         @include('layouts.dashboard.head')
+		<style>
+			.filter-option.active {
+				background-color: #0d6efd;
+				color: white;
+				border-radius: 5px;
+			}
+		</style>
 	</head>
 	<!--end::Head-->
 	<!--begin::Body-->

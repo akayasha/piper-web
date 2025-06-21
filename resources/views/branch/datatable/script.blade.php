@@ -31,7 +31,7 @@
                     },
                     {
                         orderable: false,
-                        targets: 5
+                        targets: 4
                     },
                 ],
                 'columns': [{
@@ -45,24 +45,6 @@
                         data: 'name',
                         render: function(data, type, row) {
                             return data ? data : '-';
-                        }
-                    },
-                    {
-                        data: 'users.name',
-                        render: function(data, type, row) {
-                            return data ? data : '-';
-                        }
-                    },
-                    {
-                        data: 'price',
-                        render: function(data, type, row) {
-                            return data ?
-                                new Intl.NumberFormat('id-ID', {
-                                    style: 'currency',
-                                    currency: 'IDR',
-                                    minimumFractionDigits: 2
-                                }).format(data).replace('IDR', '').trim() + '/Strip' :
-                                '-';
                         }
                     },
                     {

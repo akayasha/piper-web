@@ -19,7 +19,8 @@
                     <!--begin::Card title-->
                     <div class="card-title">
                         <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative my-1">
+                        <div class="d-flex align-items-center position-relative gap-3 my-1">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                             <span class="svg-icon svg-icon-1 position-absolute ms-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
@@ -30,8 +31,20 @@
                                         fill="black" />
                                 </svg>
                             </span>
+                            <!--end::Svg Icon-->
                             <input type="text" data-kt-user-table-filter="search"
                                 class="form-control form-control-solid w-250px ps-14" placeholder="Search" />
+
+                            @if (!auth()->user()->branch_id)
+                            <select name="branch_id" id="branch_id" class="form-select form-select-solid"
+                                data-control="select2" data-hide-search="true" data-placeholder="Select Branch">
+                                <option value="all" selected>Select Branch</option>
+                                @foreach ($branches as $brch)
+                                    <option value="{{ $brch->id }}">{{ $brch->name }}</option>
+                                @endforeach
+                            </select>
+                            @endif
+
                         </div>
                         <!--end::Search-->
                     </div>
@@ -91,7 +104,7 @@
         <!-- Modal -->
         <div class="modal fade" id="generateModal" tabindex="-1" aria-labelledby="generateModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form action="{{ route($route.'generate-code-auto') }}" method="POST">
+                <form action="{{ route($route . 'generate-code-auto') }}" method="POST">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
@@ -107,23 +120,24 @@
                                         <div class="position-relative mb-3">
                                             <select name="branch_id" class="form-select form-select-solid"
                                                 data-control="select2" data-hide-search="true" data-placeholder="Select">
-                                                @foreach ($branchs as $branch)
-                                                    <option value="{{ $branch->id }}"
-                                                        {{ isset($data) && $data->branch_id == $branch->id ? 'selected' : '' }}>
+                                                @foreach ($branches as $branch)
+                                                    <option value="{{ $branch->id }}" {{ isset($data) && $data->branch_id == $branch->id ? 'selected' : '' }}>
                                                         {{ $branch->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                             @error('branch_id')
                                                 <p style="font-size: 12px;"
-                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">{{ $message }} !
+                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">
+                                                    {{ $message }} !
                                                 </p>
                                             @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 fv-row mb-3">
-                                        <label role="strip" class="form-label fw-bolder text-dark fs-6">Strip <span class="text-danger">*</span></label>
+                                        <label role="strip" class="form-label fw-bolder text-dark fs-6">Strip <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative mb-3">
                                             <input type="number" name="strip"
                                                 class="form-control form-control-lg form-control-solid" autocomplete="off"
@@ -131,14 +145,16 @@
                                                 max="8">
                                             @error('strip')
                                                 <p style="font-size: 12px;"
-                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">{{ $message }} !
+                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">
+                                                    {{ $message }} !
                                                 </p>
                                             @enderror
                                         </div>
                                     </div>
 
                                     <div class="form-group col-md-12 fv-row">
-                                        <label role="total_generate" class="form-label fw-bolder text-dark fs-6">Jumlah total Generate <span class="text-danger">*</span></label>
+                                        <label role="total_generate" class="form-label fw-bolder text-dark fs-6">Jumlah
+                                            total Generate <span class="text-danger">*</span></label>
                                         <div class="position-relative mb-3">
                                             <input type="number" name="total_generate"
                                                 class="form-control form-control-lg form-control-solid" autocomplete="off"
@@ -146,7 +162,8 @@
                                                 placeholder="Input Total Generate" />
                                             @error('total_generate')
                                                 <p style="font-size: 12px;"
-                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">{{ $message }}
+                                                    class="mb-0 text-danger mt-1 font-italic font-weight-bold">
+                                                    {{ $message }}
                                                     !</p>
                                             @enderror
                                         </div>
@@ -157,7 +174,8 @@
 
                         </div>
                         <div class="modal-footer d-flex justify-content-between">
-                            <a href="{{ route($route . 'index') }}" class="btn btn-secondary" data-bs-dismiss="modal">Back</a>
+                            <a href="{{ route($route . 'index') }}" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Back</a>
                             <button class="btn btn-primary mr-1" type="submit">Generate</button>
                         </div>
                     </div>
@@ -165,4 +183,4 @@
             </div>
         </div>
     </div>
-    @endsection
+@endsection

@@ -43,7 +43,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+        // 'gcs' => [
+        //     'driver' => 'google',
+        //     'bucket' => env('GCS_BUCKET'),
+        //     'credentials' => [
+        //         'projectId' => env('GOOGLE_CLOUD_PROJECT_ID'),
+        //         'keyFile' => env('GOOGLE_CLOUD_SERVICE_ACCOUNT_JSON')
+        //     ],
+        // ],
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

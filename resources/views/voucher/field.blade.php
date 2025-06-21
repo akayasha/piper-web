@@ -9,7 +9,7 @@
                 <!--begin::Input wrapper-->
                 <div class="position-relative mb-3">
                     <select name="branch_id" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select">
-                        @foreach ($branchs as $branch)
+                        @foreach ($branches as $branch)
                             <option value="{{ $branch->id }}" {{ isset($data) && $data->branch_id == $branch->id ? 'selected' : '' }}>
                                 {{$branch->name}}
                             </option>
